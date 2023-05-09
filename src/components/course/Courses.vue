@@ -51,7 +51,7 @@
             <a  @click="goCourse(item)" >
               <i class></i>
               <strong>{{item.courseName}}</strong>
-              <small>{{item.introduction}}</small>
+              <!-- <small>{{item.introduction}}</small> -->
             </a>
           </li>
           <li>
@@ -438,7 +438,7 @@
   #content {
     background: #f1f1f1; /* Fondo del contenido */
     border-radius: 0 0.25em 0.25em 0.25em;
-    min-height: 20em; /* Alto del contenido */
+    min-height: 10em; /* Alto del contenido */
     position: relative;
     width: 100%;
     z-index: 5;

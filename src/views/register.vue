@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="background-color: #f7f7f7">
-    <span class="til" >Dasabi</span>
+    <span class="til" >Starlight</span>
     <span style="border-left:solid 1px #d9d9d9;margin-left: 70px;font-size: 50px;padding-left: 40px;color: grey">注册</span>
     </div>
 

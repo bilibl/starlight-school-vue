@@ -9,7 +9,7 @@
         target="_blank"
         rel="noopener"
       >AGPL-3.0 开源协议</a>
-      <br />Copyright &copy; 2020 Team 3
+      <br />Copyright &copy; 2023 lc
     </p>
   </footer>
 </div>

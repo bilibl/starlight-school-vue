@@ -114,8 +114,8 @@ export default {
 .categories {
   position: fixed;
   margin-left: 50%;
-  left: -700px;
-  top: 100px;
+  left: -950px;
+  top: 200px;
   width: 150px;
   border-style: solid;
   border-width: 0.1px;
