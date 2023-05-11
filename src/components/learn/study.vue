@@ -1,11 +1,11 @@
 <template >
   <div>
-    <div style="background-color:#f8f8f8;">
+    <div style="background-color:#f8f8f8; margin-top: 20px;">
       <span
         class="particletext bubbles"
-        style="font-size: 30px;margin-left: -80%;"
+        style="font-size: 30px;"
       >{{this.etc.school_name}}</span>
-      <a style="border-left:1px;padding-left: 11px">{{this.course.courseName}}</a>
+      <a style="border-left:1px;font-size: 30px;padding-left: 11px">{{this.course.courseName}}</a>
     </div>
     <el-divider></el-divider>
 
@@ -25,7 +25,7 @@
             <i class="el-icon-s-custom"></i>
             <span slot="title">视频章节</span>
           </el-menu-item>
-          <el-menu-item index="3" class="seta" @click="showWhat = 'homework'">
+          <el-menu-item index="3" class="seta" @click="showWhat = 'paper'">
             <i class="el-icon-s-goods"></i>
             <span slot="title">作业</span>
           </el-menu-item>
@@ -55,6 +55,7 @@
 import { getCourseById, getpcategorybycourse } from "@/api/modules/course";
 import subvideo from "@/components/subvideo.vue";
 import discover from "@/components/learn/discover.vue";
+import paper from "@/components/learn/paper.vue";
 import homework from "@/components/learn/homework.vue";
 import videolist from "@/components/learn/videolist.vue";
 import bbs from "@/components/learn/bbs.vue";
@@ -67,6 +68,7 @@ export default {
   components: {
     subvideo,
     discover,
+    paper,
     homework,
     bbs,
     videolist,

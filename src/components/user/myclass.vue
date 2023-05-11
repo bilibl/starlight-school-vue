@@ -5,10 +5,10 @@
         <el-col :span="6" v-for="course in courses" :key="course.id">
           <!--        <el-card :body-style="{ padding: '0px' }">-->
           <li class="card" @click="goCourse(course)">
-            <img
+            <!-- <img
               src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            />
-
+            /> -->
+            <img :src="course.imgSrc"/>
             <a class="card-description" target="_blank">
               <h2>{{course.courseName}}</h2>
               <p type="text" class="button" @click="goCourse(course)">查看详情</p>

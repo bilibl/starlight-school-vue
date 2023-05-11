@@ -7,7 +7,8 @@
           <li class="card" @click="goCourse(course)" >
 
 
-              <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"  />
+              <!-- <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"  /> -->
+              <img :src="course.imgSrc" class="card-image"/>
 
 
             <a class="card-description" target="_blank">
@@ -128,9 +129,10 @@ export default {
 
   .card {
     display: inline-block;
-    width: 240px;
+    /* width: 240px; */
+    width: 460px;
     height: 340px;
-    max-width: 20rem;
+    /* max-width: 20rem; */
     margin: 0px;
     font-size: 1rem;
     text-decoration: none;
