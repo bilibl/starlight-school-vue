@@ -10,7 +10,7 @@ const Home = () => import('@/views/Home.vue')
 const About = () => import('@/views/About.vue')
 
 const infoRefine = () => import('@/views/infoRefine.vue')
-
+const exam = () => import('../components/exam/exam.vue')
 const index = () => import('../components/base/base.vue')
 // const nav = () => import('../components/base/Nav.vue')
 const Cardies = () => import('../components/Cardies.vue')
@@ -61,7 +61,10 @@ const routes = [
           requireAuth: true
         }
       },
-    
+      {
+        path: '/exam',
+        component: exam,
+      },
       {
         path: '/searchcourse?coursename',
         name: 'searchcourse',
