@@ -38,11 +38,11 @@ export default {
     };
   },
   watch :{
-  　'$route': function (to, from) {
+  '$route': function (to, from) {
        //执行数据更新查询
-　   this.result =getStore("result")
-    this.search()
-　　}
+     this.result =getStore("result")
+     this.search()
+}
 },
   mounted() {
    
@@ -89,15 +89,23 @@ export default {
   /* Lazy Load Styles */
   .card-image {
     display: block;
-    min-height: 20rem; /* layout hack */
+    /* min-height: 20rem; layout hack */
     background: #fff center center no-repeat;
     background-size: cover;
     filter: blur(3px); /* blur the lowres image */
   }
+  img {
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+}
 
   .card-image > img {
     display: block;
     width: 100%;
+    height: 100%;
     opacity: 0; /* visually hide the img element */
   }
 

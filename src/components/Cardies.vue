@@ -161,6 +161,7 @@ export default {
 
 <style scoped>
 @import "../dist/material-cards.css";
+@import "../dist/material-cards-auto-height.css";
 @import "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css";
 @import "http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
 @import "http://fonts.googleapis.com/css?family=Raleway:400,300,200,500,600,700";

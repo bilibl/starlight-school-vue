@@ -79,12 +79,12 @@ export default {
   /* Lazy Load Styles */
   .card-image {
     display: block;
-    min-height: 20rem; /* layout hack */
+    /* min-height: 20rem; layout hack */
     background: #fff center center no-repeat;
     background-size: cover;
     filter: blur(3px); /* blur the lowres image */
   }
-
+ 
   .card-image > img {
     display: block;
     width: 100%;
@@ -104,7 +104,7 @@ export default {
     width: 100%;
     height: 100%;
     margin: 0;
-    font-size: 12px;
+    font-size: 16px;
     font-family: sans-serif;
   }
 
@@ -119,7 +119,7 @@ export default {
 
   .card {
     display: inline-block;
-    width: 460px;
+    width: 430px;
     height: 340px;
     /* max-width: 20rem; */
     margin: 0px;
@@ -131,6 +131,7 @@ export default {
   }
 
   .card:hover {
+    cursor: pointer;
     transform: translateY(-0.5rem) scale(1.0125);
     box-shadow: 0 0.5em 3rem -1rem rgba(0,0,0,0.5);
   }

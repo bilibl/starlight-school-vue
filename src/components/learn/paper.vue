@@ -142,6 +142,7 @@ export default {
         )
     },
     submitPaper() {
+        this.ischecked = 1;
         console.log(this.questions);
     },
   },
