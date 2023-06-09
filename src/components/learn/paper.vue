@@ -1,77 +1,59 @@
+
 <template>
   <div class="one">
     <div class="detail">
       <span style="font-size:25px;color='#333'">{{ exam.name }}</span>
       <!-- <span style="font-size:20px;color='#333'"></span> -->
     </div>
-    <el-alert v-if="ischecked===1" effect="dark" center > 本次得分为{{sumScore}}分,试题总分为{{totalScore}}分</el-alert>
-    <el-alert v-else  effect="dark" center> 温馨提示：请认真答题，切勿遗漏</el-alert>
+    <el-alert v-if="showAnswers" effect="dark" center > 本次得分为{{sumScore}}分,测验总分为{{totalScore}}分</el-alert>
+    <el-alert v-else  effect="dark" center>温馨提示：请认真答题，切勿遗漏
+    </el-alert>
+
     <div class="content">
       <div
-        v-for="(item, index) in questions"
+        v-for="(item, index) in exam.questions"
         :key="item.id"
         class="contenStyle"
       >
         <div class="questionStyle">
           <div class="title">
-            {{ index + 1 }}.{{ item.name }}
+            {{ index + 1 }}.{{ item.text }}
             <span v-if="item.type === 1" class="testFont">(单选题)</span>
             <span v-if="item.type === 2" class="testFont">(判断题)</span>
           </div>
           <!-- 选择题 -->
           <div v-if="item.type === 1" class="choice">
-            <span
-              ><el-radio v-model="item.studentAnswer" label="A"
-                >A.{{ item.a }}</el-radio
-              ></span
-            >
-            <span
-              ><el-radio v-model="item.studentAnswer" label="B"
-                >B.{{ item.b }}</el-radio
-              ></span
-            >
-            <span
-              ><el-radio v-model="item.studentAnswer" label="C"
-                >C.{{ item.c }}</el-radio
-              ></span
-            >
-            <span
-              ><el-radio v-model="item.studentAnswer" label="D"
-                >D.{{ item.d }}</el-radio
-              ></span
-            >
+            <el-radio-group v-model="selectedAnswers[item.id]">
+            <el-radio :label="option.text" v-for="option in item.options" :key="option.id">
+              {{ option.text }}
+            </el-radio>
+          </el-radio-group>
           </div>
           <!-- 判断题 -->
           <div v-if="item.type === 2" class="choice">
-            <span
-              ><el-radio v-model="item['answer' + index]" label="是"
-                >是{{ item.a }}</el-radio
-              ></span
-            >
-            <span
-              ><el-radio v-model="item['answer' + index]" label="否"
-                >否{{ item.a }}</el-radio
-              ></span
-            >
+           <el-radio-group v-model="selectedAnswers[item.id]">
+              <el-radio label="true">True</el-radio>
+              <el-radio label="false">False</el-radio>
+          </el-radio-group>
           </div>
         </div>
 
         <!-- 正确答案 -->
-        <el-card style="margin: 20px 200px;" v-if="ischecked === 1">
+        <el-card style="margin: 20px 200px;" v-if="showAnswers">
           <div>
-            <div class="right" v-show="item.isright" style="color:green">
+            <div class="right" v-if="isAnswerCorrect(item)" style="color:green">
               正确答案：{{ item.answer }}，你选对了
             </div>
-            <div class="wrong" v-show="!item.isright" style="color:red">
+            <div class="wrong" v-else style="color:red">
               正确答案：{{ item.answer }}，你选错了
             </div>
           </div>
         </el-card>
       </div>
       <!-- 提交测验 -->
-      <div v-if="ischecked === 0">
-        <el-divider></el-divider>
-        <el-button @click="submitPaper">提交测验</el-button>
+      <div>
+        <el-button v-if="!showAnswers" @click="submitExam">提交测验</el-button>
+        <el-button v-else @click="again">再做一遍</el-button>
       </div>
       
     </div>
@@ -80,71 +62,109 @@
 
 <script>
 export default {
-  props: ["course"],
+  props: ["paperid"],
   data() {
     return {
+      
       exam: {
+        id:1,
         name: "通用测验",
-      },
-      questions: [
+        time:"2023/5/10",
+        questions: [
         {
-          name: "批处理操作系统首先要考虑的问题是（    ）",
+          id:1,
+          text: "具有风险分析的软件生命周期模型是( )",
           type: 1,
-          answer: "B",
-          studentAnswer:"",
-          isright: true,
-          a: "灵活性和可适应性",
-          b: "实时性和可靠性",
-          c: "交互性和响应时间",
-          d: "周转时间和系统吞吐量",
+          options:[
+            {id:1,text:"瀑布模型"},
+            {id:2,text:"喷泉模型 "},
+            {id:3,text:"螺旋模型"},
+            {id:4,text:"增量模型"},
+          ],
+          answer:"螺旋模型"
         },
         {
-          name: "批处理操作系统首先要考虑的问题是（    ）",
+          id:2,
+          text: "批处理操作系统首先要考虑的问题是（    ）",
           type: 1,
-          answer: "B",
-          studentAnswer:"",
-          isright: true,
-          a: "灵活性和可适应性",
-          b: "实时性和可靠性",
-          c: "交互性和响应时间",
-          d: "周转时间和系统吞吐量",
+          options:[
+            {id:1,text:"灵活性和可适应性"},
+            {id:2,text:"实时性和可靠性"},
+            {id:3,text:"交互性和响应时间"},
+            {id:4,text:"周转时间和系统吞吐量"},
+          ],
+          answer:"实时性和可靠性"
         },
         {
-          name: "批处理操作系统首先要考虑的问题是（    ）",
-          type: 1,
-          answer: "B",
-          studentAnswer:"",
-          isright: true,
-          a: "灵活性和可适应性",
-          b: "实时性和可靠性",
-          c: "交互性和响应时间",
-          d: "周转时间和系统吞吐量",
+          id:3,
+          text: "建立动态模型的第一步，是编写典型交互行为的脚本。",
+          type: 2,
+          answer:'true'
+        },
+        {
+          id:4,
+          text: "软件错误可能出现在开发过程的早期，越早修改越好。",
+          type: 2,
+          answer:'true'
         },
       ],
-      ischecked: 0,
-      sumScore:"8",
-      totalScore:"8"
+      },
+      
+      sumScore:"",
+      totalScore:"",
+
+      selectedAnswers: {},
+      showAnswers: false
     };
   },
   created() {
-      console.log(this.course.id);
-      this.getpaper(this.course.id)
+      // this.getpaper(this.paperid)
   },
   methods: {
     //   获取试卷
-    getpaper(course_id) {
-        getpapers({course_id})
-        .then(res=>{
-            // this.questions=res.data.paper
-        })
-        .catch(
+    // getpaper(paperid) {
+    //     getpaper({paperid})
+    //     .then(res=>{
+    //         // this.questions=res.data.paper
+    //     })
+    //     .catch(
 
-        )
+    //     )
+    // },
+    isAnswerCorrect(question) {
+      const selectedAnswer = this.selectedAnswers[question.id];
+        // 判断题
+        if (question.type === 2) {
+          return selectedAnswer === question.answer.toString();
+        }
+
+        // 单选题
+        if (question.type === 1) {
+          return selectedAnswer === question.answer;
+        }
+
+        return false; // 默认返回错误
     },
-    submitPaper() {
-        this.ischecked = 1;
-        console.log(this.questions);
+      calculateScore() {
+      let score = 0;
+      for (const question of this.exam.questions) {
+        if (this.isAnswerCorrect(question)) {
+          score += 25; // 每题分
+        }
+      }
+      return score;
     },
+    submitExam() {
+        this.showAnswers = true
+        this.sumScore = this.calculateScore()
+        this.totalScore = 25 * this.exam.questions.length
+    },
+    again() {
+      location.reload();
+    },
+    timeover() {
+      this.submitExam()
+    }
   },
 };
 </script>
@@ -198,3 +218,5 @@ export default {
     background-color: rgb(45,115,204);
 }
 </style>
+
+

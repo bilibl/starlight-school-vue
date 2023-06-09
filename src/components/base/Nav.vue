@@ -10,11 +10,11 @@
         <div>
           <div class="til" @click="gohome">Starlight</div>
 
-          <div style="display: inline;float:left;margin-left: 50px;">
+          <div class="navmenu" >
             <el-menu
               default-active="null"
-              class="el-menu-demo"
               mode="horizontal"
+              class="el-menu-demo"
               @select="handleSelect"
             >
               <el-submenu index="0">
@@ -35,8 +35,8 @@
               </el-submenu>
             </el-menu>
           </div>
-
-          <div style="display: inline;float:left;margin-left: 14%">
+          <div class="examcenter" style="display: inline;float:left;margin-left: 40px" @click="goExam">考试中心</div>
+          <div style="display: inline;float:left;margin-left: 150px">
             <el-input v-model="searchcourse" style="width: 400px" placeholder="查找喜欢的课程">
               <el-button
                 style="background-color: #2d73cc;color: white"
@@ -100,6 +100,9 @@ export default {
 
       this.navigator("/searchcourse?coursename="+this.searchcourse);
     },
+    goExam() {
+      this.$router.push("/goexam")
+    },
     gohome() {
       this.$router.push("/home");
     },
@@ -154,13 +157,47 @@ export default {
 </script>
 
 <style scoped>
+
+  .home-header-menu .el-menu--horizontal>.el-menu-item {
+    height: 50px;
+    line-height: 50px;
+
+  }
+
+.el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title {
+    height: 50px !important;
+    line-height: 50px !important;
+    border-bottom: none;
+    text-decoration: none;
+}
+
 .til {
   margin-left: 5%;
   float: left;
   color: #2d73cc;
   font-weight: bolder;
-  font-size: 60px;
+  font-size: 55px;
   display: inline;
+  cursor: pointer;
+}
+.navmenu {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  float:left;
+  margin-left: 50px;
+  height: 60px;
+
+}
+.examcenter {
+  color: #909399;
+}
+.examcenter:hover {
+  color: #000;
+  cursor: pointer;
+}
+.el-menu.el-menu--horizontal {
+    border-bottom: none;
 }
 
 .el-header,
@@ -168,7 +205,7 @@ export default {
   background-color: white;
   color: #333;
   text-align: center;
-  line-height: 50px;
+  line-height: 55px;
 }
 
 .el-aside {
@@ -211,7 +248,7 @@ li {
 }
 ul.imglist {
   margin: 0 auto;
-  width: 1200px;
+  width: 1180px;
   overflow: hidden;
 }
 ul.imglist li {
@@ -230,4 +267,8 @@ ul.imglist li img {
   margin-left: auto;
   margin-right: auto;
 }
+.el-submenu /deep/ .el-submenu__title {
+    height: 40px;
+    line-height: 60px ;
+  }
 </style>

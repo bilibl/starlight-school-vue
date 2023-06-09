@@ -27,7 +27,7 @@
           </el-menu-item>
           <el-menu-item index="3" class="seta" @click="showWhat = 'paper'">
             <i class="el-icon-s-goods"></i>
-            <span slot="title">作业</span>
+            <span slot="title">测验</span>
           </el-menu-item>
           <el-menu-item index="4" class="seta" @click="showWhat = 'Talking'">
             <i class="el-icon-s-platform"></i>

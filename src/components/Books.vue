@@ -80,6 +80,7 @@
         color: #333;
         width: 102px;
         font-size: 13px;
+        
         margin-bottom: 6px;
         text-align: left;
     }

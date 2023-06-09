@@ -1,104 +1,228 @@
-@@ -0,0 +1,105 @@
-<template>
-  <div>
-    <h1>在线考试</h1>
-    <el-card v-for="exam in exams" :key="exam.id">
-      <h3>{{ exam.name }}</h3>
-      <p>{{ exam.time }}</p>
-      <el-button @click="startExam(exam.id)">进入考试</el-button>
-    </el-card>
 
-    <div v-if="currentExam">
-      <h2>考试界面</h2>
-      <div v-for="question in currentExam.questions" :key="question.id">
-        <h3>{{ question.text }}</h3>
-        <div v-if="question.type === 'multiple-choice'">
-          <el-radio-group v-model="selectedAnswers[question.id]">
-            <el-radio :label="option.id" v-for="option in question.options" :key="option.id">
+<template>
+  <div class="one">
+    <div class="detail">
+      <span style="font-size:25px;color='#333'">{{ exam.name }}</span>
+      <!-- <span style="font-size:20px;color='#333'"></span> -->
+    </div>
+    <el-alert v-if="showAnswers" effect="dark" center > 本次得分为{{sumScore}}分,试题总分为{{totalScore}}分</el-alert>
+    <el-alert v-else  effect="dark" center>考试剩余时间
+          <el-statistic :value="deadline" time-indices @finish="timeover" format="HH:mm:ss" >
+          </el-statistic>
+    </el-alert>
+
+    <div class="content">
+      <div
+        v-for="(item, index) in exam.questions"
+        :key="item.id"
+        class="contenStyle"
+      >
+        <div class="questionStyle">
+          <div class="title">
+            {{ index + 1 }}.{{ item.text }}
+            <span v-if="item.type === 1" class="testFont">(单选题)</span>
+            <span v-if="item.type === 2" class="testFont">(判断题)</span>
+          </div>
+          <!-- 选择题 -->
+          <div v-if="item.type === 1" class="choice">
+            <el-radio-group v-model="selectedAnswers[item.id]">
+            <el-radio :label="option.text" v-for="option in item.options" :key="option.id">
               {{ option.text }}
             </el-radio>
           </el-radio-group>
-        </div>
-        <div v-else-if="question.type === 'true-false'">
-          <el-radio-group v-model="selectedAnswers[question.id]">
-            <el-radio label="true">True</el-radio>
-            <el-radio label="false">False</el-radio>
+          </div>
+          <!-- 判断题 -->
+          <div v-if="item.type === 2" class="choice">
+           <el-radio-group v-model="selectedAnswers[item.id]">
+              <el-radio label="true">True</el-radio>
+              <el-radio label="false">False</el-radio>
           </el-radio-group>
+          </div>
         </div>
-      </div>
 
-      <el-button @click="submitExam">提交试卷</el-button>
-
-      <div v-if="showAnswers">
-        <h3>答案：</h3>
-        <div v-for="question in currentExam.questions" :key="question.id">
-          <p>
-            {{ question.text }} - 正确答案: {{ question.answer }}
-          </p>
-        </div>
+        <!-- 正确答案 -->
+        <el-card style="margin: 20px 200px;" v-if="showAnswers">
+          <div>
+            <div class="right" v-if="isAnswerCorrect(item)" style="color:green">
+              正确答案：{{ item.answer }}，你选对了
+            </div>
+            <div class="wrong" v-else style="color:red">
+              正确答案：{{ item.answer }}，你选错了
+            </div>
+          </div>
+        </el-card>
       </div>
+      <!-- 提交测验 -->
+      <div>
+        <el-button v-if="!showAnswers" @click="submitExam">提交试卷</el-button>
+        <el-button v-else @click="again">再考一遍</el-button>
+      </div>
+      
     </div>
   </div>
 </template>
 
 <script>
-import { ElButton, ElCard, ElRadio, ElRadioGroup } from 'element-ui';
-
 export default {
-  components: {
-    ElButton,
-    ElCard,
-    ElRadio,
-    ElRadioGroup
-  },
+  props: ["paperid"],
   data() {
     return {
-      exams: [
+      deadline:Date.now() + 1000 * 60 * 20,
+      
+      exam: {
+        id:1,
+        name: "软件工程考试",
+        time:"2023/5/10",
+        questions: [
         {
-          id: 1,
-          name: '考试1',
-          time: '2023-05-24 10:00:00',
-          questions: [
-            {
-              id: 1,
-              text: '判断题：1 + 1 = 2',
-              type: 'true-false',
-              answer: 'true'
-            },
-            {
-              id: 2,
-              text: '单选题：下列哪个不是编程语言？',
-              type: 'multiple-choice',
-              options: [
-                { id: 1, text: 'Java' },
-                { id: 2, text: 'HTML' },
-                { id: 3, text: 'Python' },
-                { id: 4, text: 'C++' }
-              ],
-              answer: 2
-            }
-          ]
-        }
+          id:1,
+          text: "具有风险分析的软件生命周期模型是( )",
+          type: 1,
+          options:[
+            {id:1,text:"瀑布模型"},
+            {id:2,text:"喷泉模型 "},
+            {id:3,text:"螺旋模型"},
+            {id:4,text:"增量模型"},
+          ],
+          answer:"螺旋模型"
+        },
+        {
+          id:2,
+          text: "批处理操作系统首先要考虑的问题是（    ）",
+          type: 1,
+          options:[
+            {id:1,text:"灵活性和可适应性"},
+            {id:2,text:"实时性和可靠性"},
+            {id:3,text:"交互性和响应时间"},
+            {id:4,text:"周转时间和系统吞吐量"},
+          ],
+          answer:"实时性和可靠性"
+        },
+        {
+          id:3,
+          text: "建立动态模型的第一步，是编写典型交互行为的脚本。",
+          type: 2,
+          answer:'true'
+        },
+        {
+          id:4,
+          text: "软件错误可能出现在开发过程的早期，越早修改越好。",
+          type: 2,
+          answer:'true'
+        },
       ],
-      currentExam: null,
+      },
+      
+      sumScore:"",
+      totalScore:"",
+
       selectedAnswers: {},
       showAnswers: false
     };
   },
-   methods: {
-    startExam(examId) {
-      // 根据考试ID获取考试信息并开始考试
-      this.currentExam = this.exams.find(exam => exam.id === examId);
+  created() {
+      // this.getpaper(this.paperid)
+  },
+  methods: {
+    //   获取试卷
+    // getpaper(paperid) {
+    //     getpaper({paperid})
+    //     .then(res=>{
+    //         // this.questions=res.data.paper
+    //     })
+    //     .catch(
+
+    //     )
+    // },
+    isAnswerCorrect(question) {
+      const selectedAnswer = this.selectedAnswers[question.id];
+        // 判断题
+        if (question.type === 2) {
+          return selectedAnswer === question.answer.toString();
+        }
+
+        // 单选题
+        if (question.type === 1) {
+          return selectedAnswer === question.answer;
+        }
+
+        return false; // 默认返回错误
+    },
+      calculateScore() {
+      let score = 0;
+      for (const question of this.exam.questions) {
+        if (this.isAnswerCorrect(question)) {
+          score += 25; // 每题分
+        }
+      }
+      return score;
     },
     submitExam() {
-      // 提交试卷
-      this.showAnswers = true;
+        this.showAnswers = true
+        this.sumScore = this.calculateScore()
+        this.totalScore = 25 * this.exam.questions.length
+    },
+    again() {
+      location.reload();
+    },
+    timeover() {
+      this.submitExam()
     }
-  }
+  },
 };
 </script>
 
 <style>
+.one {
+  /* height: 800px; */
+  min-height: 750px;
+  width: 100%;
+  border-style: solid;
+  border-width: 0.1px;
+  border-radius: 10px;
+  border-color: #edeeef;
+  background-color: white;
+  margin-left: 0px;
+}
+.detail {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: bold;
+}
+.questionStyle {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 200px;
+}
+.title {
+  display: flex;
+  color: rgb(95, 92, 92);
+  margin: 10px 0;
+  font-size: 20px;
+}
+.choice {
+  margin-top: 30px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+.testFont {
+  font-size: 14px;
+}
+.el-radio__label {
+  font-size: 18px !important;
+}
+.el-alert .el-alert__description {
+    font-size: 18px;
+    font-weight: bold;
+}
+.el-alert--info.is-dark {
+    background-color: rgb(45,115,204);
+}
+</style>
+
+
 /* 根据需要自定义样式 */
 .exam-card {
   margin-bottom: 20px;

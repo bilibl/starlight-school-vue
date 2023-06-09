@@ -178,7 +178,7 @@ li {
 }
 ul.imglist {
   margin: 0 auto;
-  width: 1200px;
+  width: 1180px;
   overflow: hidden;
 }
 ul.imglist li {

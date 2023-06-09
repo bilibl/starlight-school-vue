@@ -11,6 +11,7 @@ const About = () => import('@/views/About.vue')
 
 const infoRefine = () => import('@/views/infoRefine.vue')
 const exam = () => import('../components/exam/exam.vue')
+const goexam = () => import('../components/exam/goexam.vue')
 const index = () => import('../components/base/base.vue')
 // const nav = () => import('../components/base/Nav.vue')
 const Cardies = () => import('../components/Cardies.vue')
@@ -62,7 +63,11 @@ const routes = [
         }
       },
       {
-        path: '/exam',
+        path: '/goexam',
+        component: goexam,
+      },
+      {
+        path: '/exam/:paperid',
         component: exam,
       },
       {

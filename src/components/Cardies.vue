@@ -4,16 +4,16 @@
       <div class="row active-with-click" v-if="this.noInterest == false">
         <div class="col-md-3 col-sm-6 col-xs-12" v-for="item in items" :key="item.id">
           <article class="material-card Indigo">
-            <h2>
+            <h2 style="font-size: 15px;font-weight: bold;">
               <span>{{item.courseName}}</span>
-              <strong>
+              <!-- <strong>
                 <i class="fa fa-fw fa-star"></i>
                 {{item.teacherId}}
-              </strong>
+              </strong> -->
             </h2>
             <div class="mc-content">
               <div class="img-container">
-                <img class="img-responsive" src="@/assets/cc.jpg" />
+                <img class="img-responsive" src="@/assets/Books.jpg" />
               </div>
               <div class="mc-description" style="height: 190px">{{item.introduction}}</div>
             </div>
@@ -92,7 +92,8 @@ export default {
       //根据兴趣推荐课程
       coursebyinterest({ student_id: this.studentid })
         .then(resp => {
-          this.items = resp.data.data;
+          this.items = resp.data.data.slice(0,4);
+          
           console.log("this.items");
           console.log(this.items);
           //  this.queryMyList1()

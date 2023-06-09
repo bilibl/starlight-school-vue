@@ -43,7 +43,7 @@
     <!--        <hr/>-->
     <!--    </div>-->
     <br />
-    <div class="containerr" style="position: relative;left: 70%">
+    <div class="containerr" style="position: relative;left: 65%">
       <nav>
         <ul class="mcd-menu" style="border-radius: 20px">
           <span>推荐课程</span>
@@ -153,7 +153,7 @@
         //根据兴趣推荐课程
         coursebyinterest({ student_id: this.myform.studentId })
                 .then(resp => {
-                  this.items = resp.data.data;
+                  this.items = resp.data.data.slice(0,5);
                   console.log("this.items");
                   console.log(this.items);
                   //  this.queryMyList1()

@@ -2,7 +2,7 @@
   <el-tabs v-model="activeName" @tab-click="handleClick" style="width:80%;margin: 0 auto">
     <el-tab-pane label="全部课程" name="first">
       <el-row>
-        <el-col :span="6" v-for="course in courses" :key="course.id">
+        <el-col :span="8" v-for="course in courses" :key="course.id">
           <!--        <el-card :body-style="{ padding: '0px' }">-->
           <li class="card" @click="goCourse(course)">
             <!-- <img
@@ -20,12 +20,10 @@
     </el-tab-pane>
     <el-tab-pane label="正在学习" name="second">
       <el-row>
-        <el-col :span="6" v-for="course in courses" :key="course.id">
+        <el-col :span="8" v-for="course in courses" :key="course.id">
           <!--        <el-card :body-style="{ padding: '0px' }">-->
           <li class="card" @click="goCourse(course)">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            />
+             <img :src="course.imgSrc"/>
 
             <a class="card-description" target="_blank">
               <h2>{{course.courseName}}</h2>
@@ -104,4 +102,8 @@ export default {
 
 
 <style scoped>
+li {
+  list-style: none;
+  cursor: pointer;
+}
 </style>
